@@ -21,12 +21,6 @@ To compute the closeness, we import Scipy's [spatial.distance.cosine](https://do
 
 The spatial.distance.cosine object calculates the distance between 2 1-d array u and v as
 
-\begin{equation}
-\begin{center}
-
-$1 - u.v/(mod(u)^2 mod(v)^2)$
-
-\end{center}
-\end{equation}
+$ 1 - u.v/u^2 $
 
 
