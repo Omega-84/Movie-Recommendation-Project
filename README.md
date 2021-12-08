@@ -21,5 +21,5 @@ To compute the closeness, we import Scipy's [spatial.distance.cosine](https://do
 
 The spatial.distance.cosine object calculates the distance between 2 1-d array u and v as
 
-![formula](https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1)
+![formula](https://latex.codecogs.com/gif.latex?1%20-%20%5Cfrac%7Bu%5Ccdot%20v%7D%7B%5Cleft%20%5C%7C%20u%20%5Cright%20%5C%7C%5E2%20%5Cleft%20%5C%7C%20v%20%5Cright%20%5C%7C%5E2%7D)
 
