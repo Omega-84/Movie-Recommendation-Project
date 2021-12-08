@@ -15,6 +15,18 @@ Final dataset consited of the following features-
 6. List of director(s)
 7. Popularity
 
-The logic behind the program revolves aroung [KNN](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm) that a particular object is influenced by other objects in its proximity. However, we used [cosine distance](https://en.wikipedia.org/wiki/Cosine_similarity) to compute our recommended movies and not the [Nearest Neighbour](https://scikit-learn.org/stable/modules/neighbors.html) class available in Scikit-learn.
+The logic behind the program revolves aroung [KNN](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm) that a particular object is influenced by other objects in its proximity. However, we used [cosine distances](https://en.wikipedia.org/wiki/Cosine_similarity) to compute our recommended movies and not the [Nearest Neighbour](https://scikit-learn.org/stable/modules/neighbors.html) class available in Scikit-learn.
+A mega-list was created for genres, actors and directors which consisted of all unique entities in them. Using them we created a binary-sparse list for all 3 features which represented if the entity was present in a particular movie or not.
+To compute the closeness, we import Scipy's [spatial.distance.cosine](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cosine.html) method to calculate the distances.
+
+The spatial.distance.cosine object calculates the distance between 2 1-d array u and v as
+
+\begin{equation}
+\begin{center}
+
+1 - u.v/(mod(u)^2 mod(v)^2)
+
+\end{center}
+\end{equation}
 
 
