@@ -26,7 +26,7 @@ The spatial.distance.cosine object calculates the distance between 2 1-d array u
 where u and v are the binary lists for the movies.
 
 Finally web scraping was performed to obtain the poster links of the movies using the imdb-id. For this we used [The Movie Database's](https://www.themoviedb.org/) public API.
-To know more visit this [link](https://bin.re/blog/tutorial-download-posters-with-the-movie-database-api-in-python/)
+To know more visit this [link](https://bin.re/blog/tutorial-download-posters-with-the-movie-database-api-in-python/).
 
 Note: You will need to obtain an API key that is accessible for free after you create an account.
 
