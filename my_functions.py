@@ -9,6 +9,11 @@ import config
 # Load data once at module level
 df = pd.read_csv(config.MOVIE_DATA_PATH, index_col='id')
 
+# Normalize popularity to [0, 1] range to prevent it from dominating the distance metric
+# (Cosine distance is 0-1, but absolute popularity diff was huge for new movies)
+if 'popularity' in df.columns:
+    df['popularity'] = (df['popularity'] - df['popularity'].min()) / (df['popularity'].max() - df['popularity'].min())
+
 for i in ['Genre list', 'Top actor list', 'Director list', 'Genres bin', 'Actors bin', 'Director bin']:
     df[i] = df[i].apply(lambda x: eval(x))
 
