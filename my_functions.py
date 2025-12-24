@@ -161,9 +161,34 @@ def get_all_movies():
         List of tuples: (movie_id, title)
     """
     movie_list = []
-    for i in df.index:
+    # Reverse order to show newest additions first
+    for i in df.index[::-1]:
         try:
             movie_list.append((i, df['title'][i]))
         except KeyError:
             continue
     return movie_list
+
+
+def get_new_arrivals(limit=10):
+    """Get the most recently added movies.
+    
+    Args:
+        limit: Number of movies to return
+        
+    Returns:
+        List of tuples: (movie_id, title, poster_url)
+    """
+    new_movies = []
+    # Get last 'limit' movies from the dataframe
+    recent_indices = df.index[-limit:][::-1]
+    
+    for idx in recent_indices:
+        try:
+            title = df['title'][idx]
+            poster = get_movie_poster(idx)
+            new_movies.append((idx, title, poster))
+        except Exception:
+            continue
+            
+    return new_movies

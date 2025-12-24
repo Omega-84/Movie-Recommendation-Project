@@ -1,0 +1,100 @@
+/* Main App Styling */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+
+html,
+body,
+[class*="css"] {
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Hide Streamlit elements */
+#MainMenu {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    background: #141414;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #E50914;
+}
+
+/* Cards */
+.movie-card {
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    padding: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #333;
+    height: 100%;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    border-color: #E50914;
+}
+
+.movie-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-subtitle {
+    font-size: 0.85rem;
+    color: #aaa;
+    margin-bottom: 10px;
+}
+
+/* Sidebar */
+.css-1d391kg {
+    background-color: #000000;
+}
+
+/* Buttons */
+.stButton>button {
+    background-color: #E50914;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    width: 100%;
+    transition: background 0.2s;
+}
+
+.stButton>button:hover {
+    background-color: #b20710;
+    box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+}
+
+/* Headers */
+h1 {
+    font-weight: 800;
+    background: linear-gradient(90deg, #E50914, #ff6b6b);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+h2,
+h3 {
+    font-weight: 600;
+}

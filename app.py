@@ -5,15 +5,19 @@ import config
 
 # Page configuration
 st.set_page_config(
-    page_title="Movie Recommendation System",
-    page_icon="🎬",
-    layout="centered"
+    page_title=f"{config.APP_TITLE} - Movie Recommendations",
+    page_icon=config.APP_ICON,
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Load data
+# Load CSS
+with open('style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+# Load data with caching
 @st.cache_data
 def load_data():
-    """Load movie data with caching for performance."""
     try:
         return pd.read_csv(config.MOVIE_DATA_PATH, index_col='id')
     except FileNotFoundError:
@@ -22,78 +26,112 @@ def load_data():
 
 df = load_data()
 
-# Sidebar - Author info
-info = st.sidebar.container()
-info.title("Made by:")
-info.text("")
+# Sidebar
+with st.sidebar:
+    st.image('img.jpeg', width=100)
+    st.title(config.APP_TITLE)
+    st.markdown("### Made by **Varun Nayyar**")
+    
+    st.markdown("---")
+    st.markdown("Connect with me:")
+    st.markdown(
+        """
+        <div style="display: flex; gap: 10px;">
+            <a href="https://www.linkedin.com/in/varun-nayyar-ml/" target="_blank">LinkedIn</a> •
+            <a href="https://github.com/Omega-84" target="_blank">GitHub</a> •
+            <a href="https://nayyarvarun84.wixsite.com/my-site" target="_blank">Website</a>
+        </div>
+        """, 
+        unsafe_allow_html=True
+    )
+    st.markdown("---")
 
-try:
-    info.image('img.jpeg', width=125)
-except Exception:
-    info.text("📷 Profile image unavailable")
-
-info.subheader("**Varun Nayyar**")
-info.text("Let's Chat")
-info.write("[LinkedIn](https://www.linkedin.com/in/varun-nayyar-ml/)")
-info.write("[GitHub](https://github.com/Omega-84)")
-info.write("[My Site](https://nayyarvarun84.wixsite.com/my-site)")
-
-# Main content
-st.title('🎬 MOVIE RECOMMENDATION SYSTEM')
-
+# Main Content
 if df is not None:
-    st.header("Select a movie for which you want recommendations")
+    # Tabs for navigation
+    tab1, tab2 = st.tabs(["🔍 Search & Recommend", "🔥 New Arrivals"])
     
-    # Get movie list safely
-    movie_list = myfn.get_all_movies()
-    
-    if not movie_list:
-        st.error("❌ No movies found in the database.")
-    else:
-        option = st.selectbox("Search the name:", movie_list)
-        idd = option[0]
+    # --- Tab 1: Search & Recommend ---
+    with tab1:
+        st.title(f"{config.APP_ICON} Movie Recommender")
+        st.markdown("### Discover your next favorite film")
         
-        # Display selected movie
-        col1, col2, col3 = st.columns(3)
+        # Search Box
+        movie_list = myfn.get_all_movies()
+        selected_movie = st.selectbox(
+            "Select a movie you love:", 
+            movie_list,
+            format_func=lambda x: x[1],
+            placeholder="Type to search..."
+        )
         
-        with col1:
-            st.write("")
+        if selected_movie:
+            idd = selected_movie[0]
+            
+            # Selected Movie Display
+            col1, col2 = st.columns([1, 2])
+            
+            with col1:
+                poster = myfn.get_movie_poster(idd)
+                st.image(poster, use_column_width=True)
+            
+            with col2:
+                st.subheader(myfn.get_movie_title(idd))
+                # Add more details if available (e.g., genres) later
+            
+            st.markdown("---")
+            st.subheader("You might also like:")
+            
+            # Recommendations
+            with st.spinner("Analyzing movie features..."):
+                try:
+                    recommendations = myfn.get_recommendations(idd)
+                    
+                    if not recommendations:
+                        st.warning("No recommendations found.")
+                    else:
+                        # Display as a grid
+                        cols = st.columns(len(recommendations))
+                        for idx, (rec_text, rec_id) in enumerate(recommendations):
+                            with cols[idx]:
+                                rec_poster = myfn.get_movie_poster(rec_id)
+                                rec_title = rec_text.split('\n')[0].strip() # Extract title
+                                
+                                st.markdown(
+                                    f"""
+                                    <div class="movie-card">
+                                        <img src="{rec_poster}" style="width:100%; border-radius:8px; margin-bottom:10px;">
+                                        <div class="movie-title">{rec_title}</div>
+                                    </div>
+                                    """,
+                                    unsafe_allow_html=True
+                                )
+                                # Tooltip/Expandable for details
+                                with st.expander("Details"):
+                                    st.caption(rec_text.replace(rec_title, "").strip())
+                                    
+                except Exception as e:
+                    st.error(f"Error: {str(e)}")
+
+    # --- Tab 2: New Arrivals ---
+    with tab2:
+        st.title("🔥 Just Added")
+        st.markdown("### Fresh movies added to our database")
         
-        with col2:
-            poster_url = myfn.get_movie_poster(idd)
-            try:
-                st.image(poster_url, width=250)
-            except Exception:
-                st.image(config.DEFAULT_POSTER_URL, width=250)
-            st.caption(myfn.get_movie_title(idd))
+        new_movies = myfn.get_new_arrivals(limit=18)
         
-        with col3:
-            st.write("")
+        # 6 columns grid for new arrivals
+        curr_row = st.columns(6)
         
-        # Get and display recommendations
-        st.subheader(f"If you watched __*{myfn.get_movie_title(idd)}*__, you may like:")
-        
-        with st.spinner("Finding similar movies..."):
-            try:
-                recommendations = myfn.get_recommendations(idd)
-                
-                if not recommendations:
-                    st.warning("No recommendations found for this movie.")
-                else:
-                    for i, (rec_text, rec_id) in enumerate(recommendations):
-                        st.text(rec_text)
-                        
-                        poster_url = myfn.get_movie_poster(rec_id)
-                        try:
-                            st.image(poster_url, width=150)
-                        except Exception:
-                            st.image(config.DEFAULT_POSTER_URL, width=150)
-                        
-                        st.markdown(
-                            """<hr style="height:10px;border:none;color:#333;background-color:#333;" />""",
-                            unsafe_allow_html=True
-                        )
-            except Exception as e:
-                st.error(f"❌ Error generating recommendations: {str(e)}")
+        for i, (mid, title, poster_url) in enumerate(new_movies):
+            col_idx = i % 6
+            # New row every 6 items
+            if i > 0 and col_idx == 0:
+                curr_row = st.columns(6)
+            
+            with curr_row[col_idx]:
+                st.image(poster_url, use_column_width=True)
+                st.caption(f"**{title}**")
+
 else:
-    st.error("❌ Unable to load movie data. Please check your configuration.")
+    st.error("Failed to load movie database.")
