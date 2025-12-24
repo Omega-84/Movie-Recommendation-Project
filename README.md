@@ -30,4 +30,59 @@ To know more visit this [link](https://bin.re/blog/tutorial-download-posters-wit
 
 Note: You will need to obtain an API key that is accessible for free after you create an account.
 
+---
+
+## 🐳 Docker
+
+### Quick Start with Docker
+
+```bash
+# Build the image
+docker build -t movie-recommendation .
+
+# Run the container
+docker run -p 8501:8501 movie-recommendation
+```
+
+Then open your browser to `http://localhost:8501`
+
+### Using Docker Compose (Recommended for Development)
+
+```bash
+# Start the application
+docker-compose up
+
+# Start in background
+docker-compose up -d
+
+# Stop the application
+docker-compose down
+```
+
+### Pull from GitHub Container Registry
+
+```bash
+docker pull ghcr.io/omega-84/movie-recommendation-project:latest
+docker run -p 8501:8501 ghcr.io/omega-84/movie-recommendation-project:latest
+```
+
+---
+
+## 🔄 CI/CD Pipeline
+
+This project uses GitHub Actions for continuous integration and deployment.
+
+![CI/CD Pipeline](https://github.com/Omega-84/Movie-Recommendation-Project/actions/workflows/ci-cd.yml/badge.svg)
+
+### Pipeline Stages
+
+1. **🔍 Lint & Test** - Runs flake8 linting and pytest (if tests exist)
+2. **🐳 Build Docker** - Builds and tests the Docker image
+3. **📤 Push to GHCR** - Pushes to GitHub Container Registry (main branch only)
+
+### Triggering the Pipeline
+
+- **Automatic**: On push to `main` or `develop` branches
+- **Pull Requests**: On PRs targeting `main`
+- **Manual**: Via GitHub Actions "Run workflow" button
 

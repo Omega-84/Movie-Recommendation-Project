@@ -1,0 +1,47 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+.Python
+*.so
+.eggs
+*.egg-info
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.docker
+
+# GitHub
+.github/
+
+# Documentation
+*.md
+LICENSE
+
+# Misc
+.DS_Store
+Thumbs.db
