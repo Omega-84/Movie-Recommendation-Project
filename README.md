@@ -86,3 +86,53 @@ This project uses GitHub Actions for continuous integration and deployment.
 - **Pull Requests**: On PRs targeting `main`
 - **Manual**: Via GitHub Actions "Run workflow" button
 
+---
+
+## 🎬 Adding New Movies
+
+Use the `add_movies.py` script to add new movies to the database. It uses The Movie Database (TMDB) API to fetch movie information and posters automatically.
+
+### Setup
+
+1. Get a free TMDB API key at https://www.themoviedb.org/settings/api
+2. Set your API key:
+   ```bash
+   export TMDB_API_KEY='your_api_key_here'
+   ```
+
+### Usage
+
+```bash
+# Add a movie by title
+python add_movies.py --movie "The Dark Knight"
+
+# Add by TMDB ID
+python add_movies.py --tmdb-id 155
+
+# Add by IMDB ID
+python add_movies.py --imdb-id tt0468569
+
+# Add multiple movies from a file (one title per line)
+python add_movies.py --batch movies_to_add.txt
+
+# Rebuild binary vectors after adding many movies
+python add_movies.py --rebuild
+```
+
+### Batch Add Example
+
+Create a file `movies_to_add.txt`:
+```
+Inception
+Interstellar
+The Prestige
+Dunkirk
+Oppenheimer
+```
+
+Then run:
+```bash
+python add_movies.py --batch movies_to_add.txt
+python add_movies.py --rebuild  # Rebuild vectors for new actors/genres
+```
+
