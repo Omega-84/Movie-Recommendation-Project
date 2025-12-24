@@ -2,7 +2,7 @@
 _____
 This is the repo for a movie recommendation system made using the [IMDb](https://www.imdb.com/) dataset.
 
-The deployed app can be found [here](https://omega-84-movie-recommendation-project.streamlit.app/).
+The deployed app can be found [here](https://omega-84-movie-recommendation-project-app-j8dinr.streamlit.app/).
 
 The dataset was cleaned and trivial/non-essential features were discarded.
 
